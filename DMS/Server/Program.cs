@@ -5,26 +5,22 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+#region Configure Services
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-
-var app = builder.Build();
-
-
-
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 
+#endregion
 
 
 
 
-
+#region Pipeline Midllaware
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -50,3 +46,4 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+#endregion
