@@ -1,12 +1,6 @@
 ﻿using DMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-//using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DMS.Data.Configurations
 {
@@ -21,6 +15,11 @@ namespace DMS.Data.Configurations
             builder.Property(x => x.Content)
             .HasMaxLength(200)
             .IsRequired();
+
+            builder
+               .HasOne(p => p.Category)
+               .WithMany(b => b.Documents)
+               .HasForeignKey(p => p.CategoryId);
 
             builder.Property(x => x.DateCreated)
 

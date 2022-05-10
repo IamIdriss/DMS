@@ -1,4 +1,5 @@
-﻿using DMS.Domain.Entities;
+﻿using DMS.Data.Configurations;
+using DMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DMS.Data
@@ -32,10 +33,13 @@ namespace DMS.Data
                 .HasOne(p => p.Department)
                 .WithMany(b => b.Agents)
                 .HasForeignKey(p => p.DepartmentId);
-            modelBuilder.Entity<Document>()
-                .HasOne(p => p.Category)
-                .WithMany(b => b.Documents)
-                .HasForeignKey(p => p.CategoryId);
+           
+
+            modelBuilder.ApplyConfiguration(new AgentConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new DepartmentConfiguration());
+            modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+
 
         }
 
