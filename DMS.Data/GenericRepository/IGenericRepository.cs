@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DMS.Data.GenericRepository
+﻿namespace DMS.Data.GenericRepository
 {
     public interface IGenericRepository<T>where T : class
     {

@@ -1,4 +1,5 @@
 using DMS.Data;
+using DMS.Data.GenericRepository;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 #endregion
 
+#region Repository
 
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+#endregion
 
 
 #region Pipeline Midlleware

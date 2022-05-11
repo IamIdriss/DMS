@@ -15,6 +15,11 @@ namespace DMS.Data.Configurations
             builder.Property(x => x.FirstName)
             .HasMaxLength(50)
             .IsRequired();
+
+            builder
+               .HasOne(p => p.Department)
+               .WithMany(b => b.Agents)
+               .HasForeignKey(p => p.DepartmentId);
         }
     }
 }
