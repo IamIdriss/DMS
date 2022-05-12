@@ -4,7 +4,7 @@
     {
         IEnumerable<T> GetAll();
         T GetById(object id);
-        void Insert(T obj);
+        Task InsertAsync(T obj);
         void Update(T obj);
         void Delete(object id);
         void Save();

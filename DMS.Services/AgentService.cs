@@ -1,13 +1,19 @@
 ﻿using DMS.Abstraction;
+using DMS.Data.GenericRepository;
 using DMS.Domain.Entities;
 
 namespace DMS.Services
 {
     public class AgentService : IAgentService
     {
-        public Task AddAgentAsync(Agent agent)
+        private readonly IGenericRepository<Agent> _agentsRepository;
+        public AgentService(IGenericRepository<Agent> agentsRepository)
         {
-            throw new NotImplementedException();
+            _agentsRepository = agentsRepository;
+        }
+        public async Task AddAgentAsync(Agent agent)
+        {
+            await _agentsRepository.InsertAsync(agent);
         }
 
         public Task DeleteAgentAsync(int agentId)
