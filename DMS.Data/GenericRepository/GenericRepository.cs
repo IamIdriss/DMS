@@ -5,8 +5,8 @@ namespace DMS.Data.GenericRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class 
     {
-        private AppDbContext _context = null;
-        private DbSet<TEntity> table = null;
+        private AppDbContext _context;
+        private DbSet<TEntity> table;
 
         public GenericRepository()
         {
@@ -20,37 +20,43 @@ namespace DMS.Data.GenericRepository
             table = _context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return table.ToList();
+            return await table.ToListAsync();
         }
 
-        public TEntity GetById(object id)
+        public async Task<TEntity> GetByIdAsync(object id)
         {
-            return table.Find(id);
+            return (await table.FindAsync(id));
         }
 
         public async Task InsertAsync(TEntity obj)
         {
            await table.AddAsync(obj);
+           Save();
         }
 
         public void Update(TEntity obj)
         {
             table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+            _context.Update(obj);
+            Save();
         }
 
         public void Delete(object id)
         {
             TEntity existing = table.Find(id);
             table.Remove(existing);
+            Save();
         }
 
         public void Save()
         {
             _context.SaveChanges();
         }
+
+ 
     }
    
 }

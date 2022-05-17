@@ -1,15 +1,21 @@
 ﻿using DMS.Abstraction;
+using DMS.Data;
 using DMS.Data.GenericRepository;
 using DMS.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DMS.Services
 {
     public class AgentService : IAgentService
     {
         private readonly IGenericRepository<Agent> _agentsRepository;
-        public AgentService(IGenericRepository<Agent> agentsRepository)
+        private AppDbContext _context;
+
+
+        public AgentService(IGenericRepository<Agent> agentsRepository, AppDbContext context)
         {
             _agentsRepository = agentsRepository;
+            _context = context;
         }
         public async Task AddAgentAsync(Agent agent)
         {
@@ -21,14 +27,15 @@ namespace DMS.Services
             throw new NotImplementedException();
         }
 
-        public Task<Agent> GetAgentByIdAsync(int agentId)
+        public async Task<Agent> GetAgentByIdAsync(int agentId)
         {
-            throw new NotImplementedException();
+            return await _agentsRepository.GetByIdAsync(agentId);   
         }
 
-        public Task<IEnumerable<Agent>> GetAllAgentsAsync()
+        public async Task<IEnumerable<Agent>> GetAllAgentsAsync()
         {
-            throw new NotImplementedException();
+          // return  await _agentsRepository.GetAllAsync();
+          return _context.Agents.Include(t => t.Department).ToList();
         }
 
         public Task UpdateAgentAsync(Agent agent)

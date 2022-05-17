@@ -1,5 +1,7 @@
+using DMS.Abstraction;
 using DMS.Data;
 using DMS.Data.GenericRepository;
+using DMS.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IAgentService,AgentService>();
 
 
 #endregion
